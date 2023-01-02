@@ -1,0 +1,16 @@
+spring:
+ jpa:
+  hibernate:
+   ddl-auto: update
+   use-new-id-generator-mappings: true
+  show-sql: true
+  properties:
+    hibernate:
+    dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+  database: mysql
+
+ datasource:
+  url: jdbc:mysql://localhost:3306/file
+  username: lmc
+  password: qweasdzxc123
+  driver-class-name: com.mysql.cj.jdbc.Driver
