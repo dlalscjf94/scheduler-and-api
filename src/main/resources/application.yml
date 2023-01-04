@@ -14,3 +14,6 @@ spring:
   username: lmc
   password: qweasdzxc123
   driver-class-name: com.mysql.cj.jdbc.Driver
+ batch:
+  jdbc:
+   initialize-schema: always

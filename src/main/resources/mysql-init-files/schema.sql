@@ -1,6 +1,6 @@
 CREATE TABLE `fileinfo` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `file_name` int,
+  `file_name` varchar(255),
   `ext_name` varchar(255),
   `file_path` varchar(255),
   `jobdate` datetime

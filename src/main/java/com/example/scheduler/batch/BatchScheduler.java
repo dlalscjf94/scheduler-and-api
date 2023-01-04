@@ -1,4 +1,4 @@
-package com.example.scheduler;
+package com.example.scheduler.batch;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,8 @@ public class BatchScheduler {
 
     // 10초마다 실행
     @Scheduled(cron = "0/10 * * * * *", zone = "Asia/Seoul")
-    public void testSchedule() {
+    public void batchScheduler() {
         logger.info("this is test schedule {}", LocalDateTime.now());
+
     }
 }
