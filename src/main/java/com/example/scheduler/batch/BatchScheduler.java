@@ -23,9 +23,11 @@ public class BatchScheduler {
 
     @Autowired
     private JobLauncher jobLauncher;
-
     @Autowired
     private CsvJob csvJob;
+    @Autowired
+    private TxtJob txtJob;
+
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     // 10초마다 실행
@@ -39,7 +41,7 @@ public class BatchScheduler {
         JobParameters jobParameters = new JobParameters(confMap);
 
         // 특정 경로 파일 확인
-        File file = new File("/file1.csv");
+        File file = new File("/file2.txt");
         // 파일명
         String fileName = file.getName();
         // 파일 확장자 추출 , 마지막 . 문자 확인해서 추출
@@ -62,6 +64,15 @@ public class BatchScheduler {
             } else if (extension.equals("txt")) {
                 logger.info("txt파일입니다.");
                 // txtJob 실행
+                try {
+                    // TODO : fileinfo data insert
+                    // TODO : filedata data insert
+                    jobLauncher.run(txtJob.textJob_batchBuild(), jobParameters);
+                } catch (JobInstanceAlreadyCompleteException | JobExecutionAlreadyRunningException |
+                         JobParametersInvalidException | JobRestartException e) {
+                    logger.error(e.getMessage());
+                    throw new RuntimeException(e);
+                }
             } else {
                 logger.error("새로운 형식의 파일입니다. 확장자명을 확인해주세요" + extension);
             }
