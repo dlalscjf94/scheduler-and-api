@@ -1,5 +1,6 @@
 package com.example.scheduler.batch;
 
+import com.example.scheduler.dao.FileDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobParameter;
@@ -33,7 +34,7 @@ public class BatchScheduler {
     // 10초마다 실행
     @Scheduled(cron = "0/10 * * * * *", zone = "Asia/Seoul")
     public void batchScheduler() {
-        logger.info("this is test schedule {}", LocalDateTime.now());
+
         // jobparam 설정
         Map<String, JobParameter> confMap = new HashMap<>();
         // TimeMillis 를 param으로 주고 job이 00시마다 반복될수 있도록
@@ -62,6 +63,7 @@ public class BatchScheduler {
                     throw new RuntimeException(e);
                 }
             } else if (extension.equals("txt")) {
+
                 logger.info("txt파일입니다.");
                 // txtJob 실행
                 try {

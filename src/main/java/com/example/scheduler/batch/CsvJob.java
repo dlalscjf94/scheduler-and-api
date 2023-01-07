@@ -9,12 +9,17 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.FlatFileItemWriter;
+import org.springframework.batch.item.file.builder.FlatFileItemWriterBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+
+import javax.activation.DataSource;
+
 
 @RequiredArgsConstructor
 @Slf4j
@@ -23,6 +28,7 @@ public class CsvJob {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
+    private final DataSource dataSource;
     // 24시간 data row 24 => chunksize 24 고정
     private static final int chunksize = 24;
 
@@ -38,8 +44,9 @@ public class CsvJob {
         return stepBuilderFactory.get("csvJob_batchStep")
                 .<FiledataDto, FiledataDto>chunk(chunksize)
                 .reader(csvJob_FileReader())
-                .writer(filedataDto -> filedataDto.stream().forEach(obj ->  {
+                .writer(filedataDto -> filedataDto.stream().forEach(obj -> {
                     log.info(obj.toString());
+//                .writer(csvJob_FileWriter())
                 })).build();
     }
 
@@ -65,6 +72,16 @@ public class CsvJob {
 
         return csvFileItemReader;
     }
+
+//    @Bean
+//    public FlatFileItemWriter<FiledataDto> csvJob_FileWriter() {
+//
+//        return new FlatFileItemWriterBuilder<FiledataDto>()
+//                .dataSource(dataSource)
+//                .sql("insert into filedata(data_time, subs_num, resign_num, pay_amount, used_amount, sales_amount) values (:data_time, :subs_num, :resign_num, :pay_amount, :used_amount, :sales_amount)")
+//                .beanMapped()
+//                .build();
+//    }
 
 
 }
